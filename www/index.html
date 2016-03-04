@@ -40,7 +40,7 @@
             }
             db = openDatabase(shortName, version, displayName, maxSize);
             db.transaction(function (tx) {
-                //tx.executeSql('DROP TABLE Recipes', nullHandler, nullHandler);
+      //      tx.executeSql('DROP TABLE Recipes', nullHandler, nullHandler);
                 tx.executeSql('CREATE TABLE IF NOT EXISTS Recipes(name TEXT, content TEXT, notes TEXT)', [], nullHandler, errorHandler);
             }, errorHandler, successCallBack);
         }
@@ -72,8 +72,8 @@
                                 var row = result.rows.item(i);
 //                            $('#lbRecipes').append('<br><br>' + '<tr><td>' + row.name + '</td></tr><br>' + '<tr><td>'+
 //                                 row.content + '</td></tr><br>' + '<tr><td>' + row.notes + '</td></tr>');
-                                   $('#lbRecipes').append('<br><br>' + row.name + '<br>' +
-                                    row.content + '<br>' + row.notes);
+                                   $('#lbRecipes').append('<br><br><h4>' + row.name + '</h4><br>' +
+                                    row.content + '<br><br>' + row.notes);
                             }
                         }
                     }, errorHandler);
@@ -127,8 +127,8 @@
     </div>
 
     <div id="newPage">
-        <div class="backgroundColor1">
-            <img class="centered" id="button2" src="images/button2-createNew.gif">
+        <div class="containerEdit backgroundColor1">
+            <img id="button2" src="images/button2-createNew.gif">
             <br>
             <br>
             <div class="containerEdit">
@@ -164,14 +164,14 @@
         </div>
     </div>
 
-    <div id="allPage" class="backgroundColor2">
+    <div id="allPage" class="container backgroundColor2">
         <div class="containerCenter">
             <img id="button2" src="images/button2.gif">
             <div class="search">
-                <h3>Welcome Back!</h3>
+                <h2>Welcome Back!</h2>
             </div>
         </div>
-        <div id = "tableEdit">
+        <div  id = "tableEdit">
         <span id="lbRecipes"></span>
         </div>
         <div class="pull-right">
