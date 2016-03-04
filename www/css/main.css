@@ -98,3 +98,6 @@ textarea {
 #lbRecipes{
     width: 800px;
 }
+.verticalAlign{
+    vertical-align: middle;
+}

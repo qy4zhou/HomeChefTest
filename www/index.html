@@ -82,6 +82,9 @@
         }
 
         $(document).ready(function () {
+            $('#index').hide();
+            $('#beforeIndex').fadeOut();
+                        $('#index').show();
             $('#newPage').hide();
             $('#allPage').hide();
 
@@ -111,18 +114,22 @@
 </head>
 
 <body onload="onBodyLoad()">
+    <div id="beforeIndex" class="containerCenter verticalAlign">
+        <img src="images/chefLogo.png">
+    </div>
+
     <div id="index">
+        <br>
+        <br>
+        <br><br><br><br>
+        <br>
+        <br>
+        <br><br><br><br>
         <div class="containerCenter">
-            <a id="all" href="#" onClick="ListDBValues()"><img id="button2" src="images/button1-viewAll.gif"></a>
+            <a id="new" href="#"><img id="button1" src="images/button1-createNew.png"></a>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="containerCenter">
-            <a id="new" href="#"><img id="button1" src="images/button1-createNew.gif"></a>
+                <div class="containerCenter">
+            <a id="all" href="#" onClick="ListDBValues()"><img id="button2" src="images/button1-viewAll.png"></a>
         </div>
     </div>
 
