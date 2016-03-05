@@ -101,21 +101,28 @@
                 $("#index").fadeIn(1000);
             });
 
-            $("#new").click(function () {
+            $('#new').click(function () {
                 $("#allPage").hide();
                 $("#index").hide();
                 $("#newPage").fadeIn(500);
             });
-            $("#new2").click(function () {
+            $('#new2').click(function () {
                 $("#allPage").hide();
                 $("#index").hide();
                 $("#newPage").fadeIn(500);
             });
-            //            $("#all").click(function () {
-            //                $("#index").hide();
-            //                $("#newPage").hide();
-            //                $("#allPage").fadeIn(500);
-            //            });
+
+            $('#all').click(function () {
+                $("#newPage").hide();
+                $("#index").hide();
+                $("#allPage").fadeIn(500);
+            });
+
+            $('#all2').click(function () {
+                $("#newPage").hide();
+                $("#index").hide();
+                $("#allPage").fadeIn(500);
+            });
         });
     </script>
 </head>
@@ -123,6 +130,7 @@
 <body onload="onBodyLoad()">
     <div class="scrollable">
         <div class="scrollable-content section">
+
             <div id="index">
                 <div class="pull-left">
                     <a id="all" href="#" onClick="ListDBValues()"><img id="button2" src="images/button1-viewAll.png"></a>
@@ -178,7 +186,7 @@
                                 <input id="submit" onclick="AddValueToDB()" class="linkButton1" type="submit" value="">
                             </div>
                             <div class="centered">
-                                <input id="all" onclick="ListDBValues()" class="linkButton3" type="button" value="">
+                                <input id="all2" onclick="ListDBValues()" class="linkButton3" type="button" value="">
                                 <div class="pull-right">
                                     <a id="home" href="#">
                                         <input class="linkButton2" type="button" value="">
@@ -199,7 +207,7 @@
                     <span id="lbRecipes"></span>
                 </div>
                 <div class="pull-left">
-                    <a id="new2" href="#"><img src="images/button1-createNew.gif-1.png">
+                    <a id="new2" href="#"><img src="images/button1-createNew.gif-1.png" width="105" height="55">
                     </a>
                 </div>
                 <div class="pull-right">
