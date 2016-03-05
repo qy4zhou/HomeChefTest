@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/main.css" />
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="SQLitePlugin.js"></script>
     <script type="text/javascript" src="lawnchair-0.6.1.js"></script>
     <script type="text/javascript" src="Lawnchair-sqlitePlugin.js"></script>
@@ -40,7 +41,7 @@
             }
             db = openDatabase(shortName, version, displayName, maxSize);
             db.transaction(function (tx) {
-      //      tx.executeSql('DROP TABLE Recipes', nullHandler, nullHandler);
+                //tx.executeSql('DROP TABLE Recipes', nullHandler, nullHandler);
                 tx.executeSql('CREATE TABLE IF NOT EXISTS Recipes(name TEXT, content TEXT, notes TEXT)', [], nullHandler, errorHandler);
             }, errorHandler, successCallBack);
         }
@@ -51,14 +52,22 @@
                 return;
             }
             db.transaction(function (transaction) {
-                transaction.executeSql('INSERT INTO Recipes(name, content, notes) VALUES (?,?,?)', [$('#txName').val(), $('#txContent').val(), $('#txNotes').val()], nullHandler, errorHandler);
+                if ($("#txName").val() && $("#txContent").val() && $("#txNotes").val()) {
+                    transaction.executeSql('INSERT INTO Recipes(name, content, notes) VALUES (?,?,?)', [$('#txName').val(), $('#txContent').val(), $('#txNotes').val()], nullHandler, errorHandler);
+                    ListDBValues();
+
+                    $("#index").hide();
+                    $("#newPage").hide();
+                    $("#allPage").fadeIn(500);
+                } else {
+                    alert("Opes, please fill all fields :)");
+                }
             });
             //ListDBValues();
             return false;
         }
 
         function ListDBValues() {
-
             if (!window.openDatabase) {
                 alert('Databases are not supported in this browser.');
                 return;
@@ -70,10 +79,11 @@
                         if (result != null && result.rows != null) {
                             for (var i = 0; i < result.rows.length; i++) {
                                 var row = result.rows.item(i);
-//                            $('#lbRecipes').append('<br><br>' + '<tr><td>' + row.name + '</td></tr><br>' + '<tr><td>'+
-//                                 row.content + '</td></tr><br>' + '<tr><td>' + row.notes + '</td></tr>');
-                                   $('#lbRecipes').append('<br><br><h4>' + row.name + '</h4><br>' +
-                                    row.content + '<br><br>' + row.notes);
+                                $('#lbRecipes').append('<br><h4><center>' + row.name + '</center></h4><br>' +
+                                    row.content.replace(/ *, */g, '<br>') + '<br><br>' + row.notes);
+                                $("#index").hide();
+                                $("#newPage").hide();
+                                $("#allPage").fadeIn(500);
                             }
                         }
                     }, errorHandler);
@@ -82,9 +92,6 @@
         }
 
         $(document).ready(function () {
-            $('#index').hide();
-            $('#beforeIndex').fadeOut();
-                        $('#index').show();
             $('#newPage').hide();
             $('#allPage').hide();
 
@@ -95,96 +102,112 @@
             });
 
             $("#new").click(function () {
-                $("#index").hide();
                 $("#allPage").hide();
+                $("#index").hide();
                 $("#newPage").fadeIn(500);
             });
-            $("#all").click(function () {
+            $("#new2").click(function () {
+                $("#allPage").hide();
                 $("#index").hide();
-                $("#newPage").hide();
-                $("#allPage").fadeIn(500);
+                $("#newPage").fadeIn(500);
             });
-            $("#submit").click(function () {
-                $("#index").hide();
-                $("#newPage").hide();
-                $("#allPage").fadeIn(500);
-            });
+            //            $("#all").click(function () {
+            //                $("#index").hide();
+            //                $("#newPage").hide();
+            //                $("#allPage").fadeIn(500);
+            //            });
         });
     </script>
 </head>
 
 <body onload="onBodyLoad()">
-    <div id="beforeIndex" class="containerCenter verticalAlign">
-        <img src="images/chefLogo.png">
-    </div>
-
-    <div id="index">
-        <br>
-        <br>
-        <br><br><br><br>
-        <br>
-        <br>
-        <br><br><br><br>
-        <div class="containerCenter">
-            <a id="new" href="#"><img id="button1" src="images/button1-createNew.png"></a>
-        </div>
+    <div class="scrollable">
+        <div class="scrollable-content section">
+            <div id="index">
+                <div class="pull-left">
+                    <a id="all" href="#" onClick="ListDBValues()"><img id="button2" src="images/button1-viewAll.png"></a>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
                 <div class="containerCenter">
-            <a id="all" href="#" onClick="ListDBValues()"><img id="button2" src="images/button1-viewAll.png"></a>
-        </div>
-    </div>
+                    <a id="new" href="#"><img id="button1" src="images/button1-createNew.png" width="350" height="220"></a>
+                </div>
+                <br>
+                <br>
+            </div>
 
-    <div id="newPage">
-        <div class="containerEdit backgroundColor1">
-            <img id="button2" src="images/button2-createNew.gif">
-            <br>
-            <br>
-            <div class="containerEdit">
-                <label for="txName">
-                    <h4>Recipe Name</h4></label>
-                <br>
-                <textarea rows="1" cols="30" id="txName"></textarea>
-                <br>
-                <label for="txContent">
-                    <h4>Ingredients/Instructions</h4></label>
-                <br>
-                <textarea rows="6" cols="40" id="txContent"></textarea>
-                <br>
-                <label for="txNotes">
-                    <h4>Notes</h4></label>
-                <br>
-                <textarea rows="3" cols="40" id="txNotes"></textarea>
-                <br>
-                <br>
-                <br>
-                <div row="col-xs-6">
-                    <div class="pull-left">
-                        <span onclick="ListDBValues()">
-                            <input id="submit" onclick= "AddValueToDB()" class="linkButton1" type="submit" value=""></span>
-                    </div>
-                    <div class="pull-right">
-                        <a id="home" href="#">
-                            <input class="linkButton2" type="button" value="">
-                        </a>
+            <div id="newPage">
+                <div class="containerEdit backgroundColor1">
+                    <img id="button2" src="images/button2-createNew.gif">
+                    <br>
+                    <br>
+                    <div class="containerEdit">
+                        <label for="txName">
+                            <h4>Recipe Name</h4></label>
+                        <br>
+                        <textarea placeholder="Recipe Name" rows="1" cols="30" id="txName"></textarea>
+                        <br>
+                        <label for="txContent">
+                            <h4>Ingredients</h4></label>
+                        <br>
+                        <textarea placeholder="Please separate ingredients by comma." rows="6" cols="40" id="txContent"></textarea>
+                        <br>
+                        <label for="txNotes">
+                            <h4>Directions</h4></label>
+                        <br>
+                        <textarea placeholder="How did you make the dish?" rows="3" cols="40" id="txNotes"></textarea>
+                        <br>
+                        <br>
+                        <br>
+                        <div row="col-xs-6">
+                            <div class="pull-left">
+                                <input id="submit" onclick="AddValueToDB()" class="linkButton1" type="submit" value="">
+                            </div>
+                            <div class="centered">
+                                <input id="all" onclick="ListDBValues()" class="linkButton3" type="button" value="">
+                                <div class="pull-right">
+                                    <a id="home" href="#">
+                                        <input class="linkButton2" type="button" value="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div id="allPage" class="container backgroundColor2">
-        <div class="containerCenter">
-            <img id="button2" src="images/button2.gif">
-            <div class="search">
-                <h2>Welcome Back!</h2>
+            <div id="allPage" class="container backgroundColor2">
+                <div class="centered">
+                    <img id="button2" src="images/homeChefLogo.png">
+                </div>
+
+                <div id="tableEdit">
+                    <span id="lbRecipes"></span>
+                </div>
+                <div class="pull-left">
+                    <a id="new2" href="#"><img src="images/button1-createNew.gif-1.png">
+                    </a>
+                </div>
+                <div class="pull-right">
+                    <a href="index.html">
+                        <input class="linkButton2" type="button" value="">
+                    </a>
+                </div>
             </div>
-        </div>
-        <div  id = "tableEdit">
-        <span id="lbRecipes"></span>
-        </div>
-        <div class="pull-right">
-            <a href="index.html">
-                <input class="linkButton2" type="button" value="">
-            </a>
         </div>
     </div>
 </body>
